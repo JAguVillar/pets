@@ -1,0 +1,13 @@
+{
+  "name": "pets",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Plataforma de adopción y mascotas perdidas",
+  "scripts": {
+    "dev:web": "pnpm --filter web dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "build:web": "pnpm --filter web build",
+    "build:admin": "pnpm --filter admin build"
+  },
+  "packageManager": "pnpm@10.6.1"
+}
