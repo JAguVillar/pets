@@ -1,7 +1,7 @@
 <script setup>
 import * as z from "zod";
 
-definePageMeta({ auth: false });
+definePageMeta({ auth: false, layout: false });
 
 const supabase = useSupabaseClient();
 const toast = useToast();
