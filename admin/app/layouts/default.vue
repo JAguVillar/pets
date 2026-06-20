@@ -21,6 +21,12 @@ const links = [
       to: "/adopciones",
       onSelect: () => (open.value = false),
     },
+    {
+      label: "Perdidos",
+      icon: "i-lucide-search-x",
+      to: "/perdidos",
+      onSelect: () => (open.value = false),
+    },
   ],
 ];
 

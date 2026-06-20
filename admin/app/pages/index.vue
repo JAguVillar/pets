@@ -30,6 +30,22 @@ const name = computed(() => profile.value?.full_name || user.value?.email || "")
           </div>
         </div>
       </UCard>
+
+      <UCard
+        as="NuxtLink"
+        to="/perdidos"
+        class="hover:border-primary transition-colors"
+      >
+        <div class="flex items-start gap-3">
+          <UIcon name="i-lucide-search-x" class="w-8 h-8 text-primary" />
+          <div>
+            <h3 class="font-semibold">Perdidos</h3>
+            <p class="text-sm text-muted mt-1">
+              Reportá una mascota perdida o encontrada y seguila desde acá.
+            </p>
+          </div>
+        </div>
+      </UCard>
     </div>
   </div>
 </template>

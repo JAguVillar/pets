@@ -7,13 +7,29 @@ export function useLostPets() {
   const loading = ref(false);
   const error = ref(null);
 
-  async function loadLostPets({ page = 1, pageSize = 10 } = {}) {
+  async function loadLostPets({
+    page = 1,
+    pageSize = 10,
+    q,
+    statusId,
+    sexId,
+    speciesId,
+    sort,
+  } = {}) {
     loading.value = true;
     error.value = null;
     try {
       const from = (page - 1) * pageSize;
       const to = from + pageSize - 1;
-      const { data, count } = await repo.list({ from, to });
+      const { data, count } = await repo.list({
+        from,
+        to,
+        q,
+        statusId,
+        sexId,
+        speciesId,
+        sort,
+      });
       return {
         data: data ?? [],
         count: count ?? 0,

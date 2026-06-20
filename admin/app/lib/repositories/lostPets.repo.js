@@ -8,17 +8,44 @@ const SELECT_FULL = `
   size:size_id (id, slug, name, sort_order)
 `;
 
+const SORTS = {
+  recent: { column: "created_at", ascending: false },
+  oldest: { column: "created_at", ascending: true },
+  last_seen_recent: { column: "last_seen_date", ascending: false, nullsFirst: false },
+  name_asc: { column: "name", ascending: true },
+};
+
 export function createLostPetsRepo(supabase) {
   return {
-    async list({ from, to } = {}) {
-      let q = supabase
+    async list({ from, to, q, statusId, sexId, speciesId, sort } = {}) {
+      const sortDef = SORTS[sort] ?? SORTS.recent;
+
+      const selectExpr = speciesId
+        ? SELECT_FULL.replace(
+            "breed:breed_id (id, slug, name, species:species_id (id, slug, name, icon))",
+            "breed:breed_id!inner (id, slug, name, species:species_id!inner (id, slug, name, icon))",
+          )
+        : SELECT_FULL;
+
+      let query = supabase
         .from("lost_pets")
-        .select(SELECT_FULL, { count: "exact" })
-        .order("created_at", { ascending: false });
+        .select(selectExpr, { count: "exact" })
+        .order(sortDef.column, {
+          ascending: sortDef.ascending,
+          nullsFirst: sortDef.nullsFirst ?? sortDef.ascending,
+        });
 
-      if (from !== undefined && to !== undefined) q = q.range(from, to);
+      if (q && q.trim()) {
+        const term = `%${q.trim()}%`;
+        query = query.or(`name.ilike.${term},last_seen_location.ilike.${term}`);
+      }
+      if (statusId) query = query.eq("status_id", statusId);
+      if (sexId) query = query.eq("sex_id", sexId);
+      if (speciesId) query = query.eq("breed.species_id", speciesId);
 
-      const { data, error, count } = await q;
+      if (from !== undefined && to !== undefined) query = query.range(from, to);
+
+      const { data, error, count } = await query;
       if (error) throw error;
       return { data: data ?? [], count: count ?? 0 };
     },
