@@ -1,0 +1,60 @@
+---
+const values = [
+  {
+    title: "Gratis para reportar",
+    desc: "Publicar una pérdida o un encontrado nunca cuesta nada. Siempre.",
+    icon: `<rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path>`,
+  },
+  {
+    title: "Refugios verificados",
+    desc: "Cada refugio pasa por verificación. Adoptás con confianza.",
+    icon: `<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"></path><path d="m9 12 2 2 4-4"></path>`,
+  },
+  {
+    title: "Comunidad activa",
+    desc: "Miles de personas atentas que comparten y reconocen mascotas.",
+    icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>`,
+  },
+  {
+    title: "Alcance regional",
+    desc: "CABA, GBA y todo el país. La red crece provincia por provincia.",
+    icon: `<circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"></path>`,
+  },
+];
+---
+
+<section class="bg-slate-900">
+  <div class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-16 lg:py-20">
+    <div
+      class="font-bold text-[13px] uppercase tracking-[.1em] text-emerald-400 mb-2.5"
+    >
+      Por qué Pets
+    </div>
+    <h2
+      class="font-extrabold text-2xl sm:text-3xl lg:text-[32px] leading-tight text-white tracking-tight mb-9 max-w-xl"
+    >
+      Una comunidad que sí aparece cuando hace falta.
+    </h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {values.map((v) => (
+        <div>
+          <span class="w-[46px] h-[46px] rounded-[13px] bg-emerald-400/15 inline-flex items-center justify-center mb-4">
+            <svg
+              width="23"
+              height="23"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#34d399"
+              stroke-width="2.2"
+              aria-hidden="true"
+              set:html={v.icon}
+            />
+          </span>
+          <div class="font-bold text-[17px] text-white mb-2">{v.title}</div>
+          <p class="text-sm leading-relaxed text-slate-400 m-0">{v.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

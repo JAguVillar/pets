@@ -1,0 +1,31 @@
+---
+const { size = 30, iconSize = 17, withText = true, textSize = "text-xl" } = Astro.props;
+---
+
+<a href="/" class="inline-flex items-center gap-2.5 select-none">
+  <span
+    class="inline-flex items-center justify-center bg-emerald-500 rounded-[9px]"
+    style={`width:${size}px;height:${size}px;`}
+  >
+    <svg
+      width={iconSize}
+      height={iconSize}
+      viewBox="0 0 24 24"
+      fill="#fff"
+      aria-hidden="true"
+    >
+      <circle cx="5.5" cy="10.5" r="2.2"></circle>
+      <circle cx="9.5" cy="6.5" r="2.2"></circle>
+      <circle cx="14.5" cy="6.5" r="2.2"></circle>
+      <circle cx="18.5" cy="10.5" r="2.2"></circle>
+      <path
+        d="M12 12c-2.5 0-4.5 2.2-4.5 4.4 0 1.8 1.6 2.6 4.5 2.6s4.5-.8 4.5-2.6C16.5 14.2 14.5 12 12 12Z"
+      ></path>
+    </svg>
+  </span>
+  {withText && (
+    <span class={`font-extrabold ${textSize} text-slate-900 tracking-tight`}>
+      Pets
+    </span>
+  )}
+</a>

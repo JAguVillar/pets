@@ -1,12 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Nav from "../components/landing/Nav.astro";
+import Hero from "../components/landing/Hero.astro";
+import HowItWorks from "../components/landing/HowItWorks.astro";
+import AdoptionGrid from "../components/landing/AdoptionGrid.astro";
+import LostBand from "../components/landing/LostBand.astro";
+import MiniMap from "../components/landing/MiniMap.astro";
+import Values from "../components/landing/Values.astro";
+import Testimonials from "../components/landing/Testimonials.astro";
+import Shelters from "../components/landing/Shelters.astro";
+import FinalCta from "../components/landing/FinalCta.astro";
+import Footer from "../components/landing/Footer.astro";
 ---
 
-<Layout title="Pets">
-  <main class="mx-auto max-w-3xl px-6 py-24">
-    <h1 class="text-4xl font-bold tracking-tight">Pets</h1>
-    <p class="mt-3 text-slate-600">
-      Setup base listo. Próximo paso: conectar Supabase y diseñar la landing.
-    </p>
+<Layout>
+  <Nav />
+  <main>
+    <Hero />
+    <HowItWorks />
+    <AdoptionGrid />
+    <LostBand />
+    <MiniMap />
+    <Values />
+    <Testimonials />
+    <Shelters />
+    <FinalCta />
   </main>
+  <Footer />
 </Layout>

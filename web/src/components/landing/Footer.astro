@@ -1,0 +1,86 @@
+---
+import PawLogo from "./PawLogo.astro";
+import { ROUTES } from "../../lib/config.js";
+
+const columns = [
+  {
+    title: "Adopciones",
+    links: [
+      { label: "Perros", href: "#adopcion" },
+      { label: "Gatos", href: "#adopcion" },
+      { label: "Refugios", href: "#refugios" },
+    ],
+  },
+  {
+    title: "Perdidos",
+    links: [
+      { label: "Reportar pérdida", href: ROUTES.adminLostNew },
+      { label: "Encontrados", href: "#perdidos" },
+      { label: "Mapa", href: "#perdidos" },
+    ],
+  },
+  {
+    title: "Refugios",
+    links: [
+      { label: "Sumar refugio", href: ROUTES.adminLogin },
+      { label: "Verificación", href: "#refugios" },
+      { label: "Recursos", href: "#refugios" },
+    ],
+  },
+  {
+    title: "Contacto",
+    links: [
+      { label: "Ayuda", href: "#" },
+      { label: "Instagram", href: "#" },
+      { label: "WhatsApp", href: "#" },
+    ],
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-slate-900">
+  <div class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 pt-14 pb-10">
+    <div
+      class="grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-8 mb-11"
+    >
+      <div class="col-span-2 lg:col-span-1">
+        <div class="mb-3.5 [&_*]:!text-white">
+          <PawLogo size={28} iconSize={16} textSize="text-lg" />
+        </div>
+        <p class="text-sm leading-relaxed text-slate-500 m-0 max-w-56">
+          Adoptar, reportar y reencontrar mascotas en Argentina. Hecho con
+          esperanza.
+        </p>
+      </div>
+
+      {columns.map((c) => (
+        <div>
+          <div class="font-bold text-[13px] text-white mb-3.5">{c.title}</div>
+          <div class="flex flex-col gap-2.5 text-sm text-slate-400">
+            {c.links.map((l) => (
+              <a href={l.href} class="hover:text-emerald-400 transition-colors">
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div
+      class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-slate-800 pt-6"
+    >
+      <span class="text-[13px] text-slate-500">
+        © {year} Pets · Argentina
+      </span>
+      <div class="flex gap-5 text-[13px] text-slate-500">
+        <a href="#" class="hover:text-slate-300 transition-colors">Términos</a>
+        <a href="#" class="hover:text-slate-300 transition-colors">
+          Privacidad
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

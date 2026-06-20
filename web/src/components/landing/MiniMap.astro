@@ -1,0 +1,95 @@
+---
+// Mapa decorativo por ahora — cuando metamos Leaflet/Maplibre,
+// reemplazamos este placeholder y dibujamos marcadores reales desde
+// lost_pets.last_seen_lat/lng.
+---
+
+<section class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-16 lg:py-20">
+  <div class="grid lg:grid-cols-[.85fr_1.15fr] gap-10 lg:gap-12 items-center">
+    <div>
+      <div
+        class="font-bold text-[13px] uppercase tracking-[.1em] text-orange-600 mb-2.5"
+      >
+        Cerca tuyo
+      </div>
+      <h2
+        class="font-extrabold text-2xl sm:text-3xl lg:text-[32px] leading-tight text-slate-900 tracking-tight mb-3.5"
+      >
+        Mascotas perdidas en tu zona.
+      </h2>
+      <p class="text-base leading-relaxed text-slate-500 mb-6">
+        Activá tu ubicación y mirá los reportes a la redonda. Cuantos más ojos,
+        antes vuelven a casa.
+      </p>
+      <a
+        href="#perdidos"
+        class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-[15px] px-6 py-3.5 rounded-[13px] inline-flex items-center gap-2.5 transition-colors"
+      >
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          aria-hidden="true"
+        >
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Ver mapa completo
+      </a>
+    </div>
+
+    <div
+      class="relative aspect-[16/10] rounded-3xl overflow-hidden border border-slate-200"
+      style="background:linear-gradient(135deg,#f0fdf4 0%,#ecfeff 100%);"
+    >
+      <div
+        class="absolute inset-0 opacity-50"
+        style="background-image:linear-gradient(#e2e8f0 1px,transparent 1px),linear-gradient(90deg,#e2e8f0 1px,transparent 1px);background-size:48px 48px;"
+      >
+      </div>
+      <div
+        class="absolute opacity-55"
+        style="left:30%;top:18%;width:42%;height:55%;background:#d1fae5;border-radius:40% 60% 55% 45%;"
+      >
+      </div>
+      <div class="absolute" style="left:32%;top:38%;">
+        <span
+          class="block w-[18px] h-[18px] rounded-full bg-red-500 border-[3px] border-white shadow-[0_4px_10px_rgba(0,0,0,.2)]"
+        ></span>
+        <span
+          class="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-[11px] text-white bg-slate-900 px-2 py-1 rounded-md"
+        >
+          Bruno · 2d
+        </span>
+      </div>
+      <div class="absolute" style="left:58%;top:28%;">
+        <span
+          class="block w-4 h-4 rounded-full bg-amber-500 border-[3px] border-white shadow-[0_4px_10px_rgba(0,0,0,.2)]"
+        ></span>
+      </div>
+      <div class="absolute" style="left:46%;top:62%;">
+        <span
+          class="block w-4 h-4 rounded-full bg-red-500 border-[3px] border-white shadow-[0_4px_10px_rgba(0,0,0,.2)]"
+        ></span>
+      </div>
+      <div class="absolute" style="left:70%;top:54%;">
+        <span
+          class="block w-4 h-4 rounded-full bg-amber-500 border-[3px] border-white shadow-[0_4px_10px_rgba(0,0,0,.2)]"
+        ></span>
+      </div>
+      <div class="absolute" style="left:18%;top:50%;">
+        <span
+          class="block w-[14px] h-[14px] rounded-full bg-emerald-500 border-[3px] border-white shadow-[0_4px_10px_rgba(0,0,0,.2)]"
+        ></span>
+      </div>
+      <span
+        class="absolute bottom-3 right-3.5 font-medium text-[11px] text-slate-500 bg-white/85 px-2 py-1 rounded-md font-mono"
+      >
+        mapa interactivo
+      </span>
+    </div>
+  </div>
+</section>

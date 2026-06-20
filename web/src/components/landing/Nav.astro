@@ -1,0 +1,44 @@
+---
+import PawLogo from "./PawLogo.astro";
+import { ROUTES } from "../../lib/config.js";
+
+const sections = [
+  { label: "Adoptar", href: "#adopcion" },
+  { label: "Perdidos", href: "#perdidos" },
+  { label: "Cómo funciona", href: "#como-funciona" },
+  { label: "Refugios", href: "#refugios" },
+];
+---
+
+<nav
+  class="sticky top-0 z-30 backdrop-blur-md bg-white/85 border-b border-slate-100"
+>
+  <div
+    class="max-w-7xl mx-auto flex items-center justify-between px-5 sm:px-10 lg:px-16 py-4"
+  >
+    <PawLogo size={30} iconSize={17} textSize="text-xl" />
+
+    <div
+      class="hidden lg:flex items-center gap-7 font-semibold text-sm text-slate-600"
+    >
+      {sections.map((s) => (
+        <a href={s.href} class="hover:text-slate-900 transition-colors">{s.label}</a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-3 sm:gap-4">
+      <a
+        href={ROUTES.adminLogin}
+        class="hidden sm:inline font-bold text-sm text-slate-900 hover:text-emerald-600 transition-colors"
+      >
+        Ingresar
+      </a>
+      <a
+        href={ROUTES.adminAdoptionsNew}
+        class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-colors"
+      >
+        Publicar mascota
+      </a>
+    </div>
+  </div>
+</nav>
