@@ -29,6 +29,13 @@ async function logout() {
 const items = [
   [
     {
+      label: "Mi perfil",
+      icon: "i-lucide-user",
+      to: "/perfil",
+    },
+  ],
+  [
+    {
       label: "Cerrar sesión",
       icon: "i-lucide-log-out",
       onSelect: logout,
