@@ -6,6 +6,11 @@ const UBadge = resolveComponent("UBadge");
 const UAvatar = resolveComponent("UAvatar");
 
 const { loadAdoptions, deleteAdoption } = useAdoptions();
+const {
+  listSpecies,
+  listSexes,
+  listAdoptionStatus,
+} = useCatalogs();
 const toast = useToast();
 const router = useRouter();
 
@@ -15,9 +20,56 @@ const page = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
 
+const qInput = ref("");
+const q = ref("");
+const speciesId = ref(null);
+const statusId = ref(null);
+const sexId = ref(null);
+const sort = ref("recent");
+
+const species = ref([]);
+const statuses = ref([]);
+const sexes = ref([]);
+
 const deletingId = ref(null);
 const openConfirm = ref(false);
 const target = ref(null);
+
+const sortOptions = [
+  { id: "recent", name: "Más recientes" },
+  { id: "oldest", name: "Más antiguas" },
+  { id: "name_asc", name: "Nombre A → Z" },
+  { id: "name_desc", name: "Nombre Z → A" },
+];
+
+const hasFilters = computed(
+  () =>
+    !!q.value ||
+    speciesId.value !== null ||
+    statusId.value !== null ||
+    sexId.value !== null,
+);
+
+function clearFilters() {
+  qInput.value = "";
+  q.value = "";
+  speciesId.value = null;
+  statusId.value = null;
+  sexId.value = null;
+}
+
+let qTimer;
+watch(qInput, (v) => {
+  clearTimeout(qTimer);
+  qTimer = setTimeout(() => {
+    q.value = v;
+    page.value = 1;
+  }, 300);
+});
+
+watch([speciesId, statusId, sexId, sort], () => {
+  page.value = 1;
+});
 
 async function refresh() {
   loading.value = true;
@@ -25,6 +77,11 @@ async function refresh() {
     const res = await loadAdoptions({
       page: page.value,
       pageSize: pageSize.value,
+      q: q.value,
+      statusId: statusId.value,
+      sexId: sexId.value,
+      speciesId: speciesId.value,
+      sort: sort.value,
     });
     rows.value = res.data;
     total.value = res.count;
@@ -32,6 +89,21 @@ async function refresh() {
     toast.add({ title: "Error", description: e.message, color: "error" });
   } finally {
     loading.value = false;
+  }
+}
+
+async function loadFilters() {
+  try {
+    const [sp, st, sx] = await Promise.all([
+      listSpecies(),
+      listAdoptionStatus(),
+      listSexes(),
+    ]);
+    species.value = sp;
+    statuses.value = st;
+    sexes.value = sx;
+  } catch (e) {
+    toast.add({ title: "Error cargando filtros", description: e.message, color: "error" });
   }
 }
 
@@ -167,19 +239,99 @@ const columns = computed(() => [
   },
 ]);
 
-watch([page, pageSize], refresh, { immediate: true });
+onMounted(loadFilters);
+watch([page, pageSize, q, speciesId, statusId, sexId, sort], refresh, {
+  immediate: true,
+});
 </script>
 
 <template>
   <div class="flex flex-col h-full">
     <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-default">
-      <h2 class="font-semibold">Mascotas en adopción</h2>
-      <UButton
-        icon="i-lucide-plus"
-        color="primary"
-        to="/adopciones/nuevo"
-      >
+      <div>
+        <h2 class="font-semibold">Mascotas en adopción</h2>
+        <p class="text-xs text-muted">
+          {{ total }} {{ total === 1 ? "publicación" : "publicaciones" }}
+        </p>
+      </div>
+      <UButton icon="i-lucide-plus" color="primary" to="/adopciones/nuevo">
         Publicar mascota
+      </UButton>
+    </div>
+
+    <div
+      class="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-default bg-elevated/25"
+    >
+      <UInput
+        v-model="qInput"
+        icon="i-lucide-search"
+        placeholder="Buscar por nombre…"
+        class="flex-1 min-w-[200px] max-w-md"
+      />
+
+      <USelectMenu
+        v-model="speciesId"
+        :items="species"
+        value-key="id"
+        label-key="name"
+        placeholder="Especie"
+        :search-input="false"
+        class="w-36"
+      >
+        <template #default="{ modelValue }">
+          <span v-if="modelValue == null" class="text-muted">Especie</span>
+          <span v-else>{{ species.find((s) => s.id === modelValue)?.name }}</span>
+        </template>
+      </USelectMenu>
+
+      <USelectMenu
+        v-model="statusId"
+        :items="statuses"
+        value-key="id"
+        label-key="name"
+        placeholder="Estado"
+        :search-input="false"
+        class="w-36"
+      >
+        <template #default="{ modelValue }">
+          <span v-if="modelValue == null" class="text-muted">Estado</span>
+          <span v-else>{{ statuses.find((s) => s.id === modelValue)?.name }}</span>
+        </template>
+      </USelectMenu>
+
+      <USelectMenu
+        v-model="sexId"
+        :items="sexes"
+        value-key="id"
+        label-key="name"
+        placeholder="Sexo"
+        :search-input="false"
+        class="w-32"
+      >
+        <template #default="{ modelValue }">
+          <span v-if="modelValue == null" class="text-muted">Sexo</span>
+          <span v-else>{{ sexes.find((s) => s.id === modelValue)?.name }}</span>
+        </template>
+      </USelectMenu>
+
+      <USelectMenu
+        v-model="sort"
+        :items="sortOptions"
+        value-key="id"
+        label-key="name"
+        :search-input="false"
+        class="w-44"
+      />
+
+      <UButton
+        v-if="hasFilters"
+        icon="i-lucide-x"
+        variant="ghost"
+        color="neutral"
+        size="sm"
+        @click="clearFilters"
+      >
+        Limpiar
       </UButton>
     </div>
 
@@ -189,7 +341,45 @@ watch([page, pageSize], refresh, { immediate: true });
         :columns="columns"
         :loading="loading"
         class="w-full"
-      />
+      >
+        <template #empty>
+          <div class="flex flex-col items-center justify-center py-12 gap-3">
+            <UIcon
+              name="i-lucide-paw-print"
+              class="w-12 h-12 text-muted"
+            />
+            <div class="text-center">
+              <p class="font-medium">
+                {{ hasFilters ? "Sin resultados" : "Todavía no hay publicaciones" }}
+              </p>
+              <p class="text-sm text-muted mt-1">
+                {{
+                  hasFilters
+                    ? "Probá ajustar los filtros o buscar otro nombre."
+                    : "Empezá publicando la primera mascota."
+                }}
+              </p>
+            </div>
+            <UButton
+              v-if="!hasFilters"
+              icon="i-lucide-plus"
+              color="primary"
+              to="/adopciones/nuevo"
+            >
+              Publicar mascota
+            </UButton>
+            <UButton
+              v-else
+              icon="i-lucide-x"
+              variant="ghost"
+              color="neutral"
+              @click="clearFilters"
+            >
+              Limpiar filtros
+            </UButton>
+          </div>
+        </template>
+      </UTable>
 
       <div v-if="total > pageSize" class="flex justify-center mt-4">
         <UPagination
