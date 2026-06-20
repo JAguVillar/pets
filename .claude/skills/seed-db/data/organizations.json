@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "refugio-patitas",
+    "name": "Refugio Patitas",
+    "email": "contacto@refugiopatitas.org.ar",
+    "phone": "+54 11 4555-1234",
+    "verified": true
+  },
+  {
+    "slug": "casa-de-los-animales",
+    "name": "Casa de los Animales",
+    "email": "hola@casadelosanimales.org",
+    "phone": "+54 11 4711-2233",
+    "verified": true
+  },
+  {
+    "slug": "adopta-norte",
+    "name": "Adopta Norte",
+    "email": "info@adoptanorte.com.ar",
+    "phone": "+54 11 4823-9988",
+    "verified": false
+  }
+]

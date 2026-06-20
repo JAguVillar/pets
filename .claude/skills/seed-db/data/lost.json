@@ -1,0 +1,94 @@
+[
+  {
+    "id": "22222222-2222-4222-8222-222222222201",
+    "name": "Lola",
+    "description": "Salió por la puerta cuando llegó un delivery. Es muy mansa, tiene collar rojo con chapita con teléfono. Si la ven, no le tengan miedo, viene si la llaman por el nombre.",
+    "age_years": 3,
+    "breed": "mestizo-perro",
+    "sex": "hembra",
+    "size": "grande",
+    "color": "dorado",
+    "coat_type": "medio",
+    "status": "lost",
+    "last_seen_date": "2026-06-18",
+    "last_seen_location": "Palermo, Honduras y Thames",
+    "last_seen_lat": -34.5894,
+    "last_seen_lng": -58.4276,
+    "reward": 50000,
+    "reporter_name": "María",
+    "reporter_phone": "+54 9 11 4567-8910",
+    "reporter_email": "maria.lola@example.com",
+    "images": [
+      "https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&q=80"
+    ]
+  },
+  {
+    "id": "22222222-2222-4222-8222-222222222202",
+    "name": "Felix",
+    "description": "Gato atigrado, escapó del balcón. Tiene cicatriz en la oreja izquierda. Es asustadizo, no intenten agarrarlo, llámennos.",
+    "age_years": 4,
+    "breed": "mestizo-gato",
+    "sex": "macho",
+    "size": "mediano",
+    "color": "atigrado",
+    "coat_type": "corto",
+    "status": "lost",
+    "last_seen_date": "2026-06-13",
+    "last_seen_location": "Belgrano, Av. Cabildo y Juramento",
+    "last_seen_lat": -34.5601,
+    "last_seen_lng": -58.4576,
+    "reward": null,
+    "reporter_name": "Sebastián",
+    "reporter_phone": "+54 9 11 3344-5566",
+    "reporter_email": null,
+    "images": [
+      "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=800&q=80"
+    ]
+  },
+  {
+    "id": "22222222-2222-4222-8222-222222222203",
+    "name": "Rocco",
+    "description": "Encontramos a este beagle en la plaza, sin collar ni chapita. Lo tenemos en casa pero somos alérgicos. Si alguien lo está buscando, contáctennos.",
+    "age_years": 5,
+    "breed": "mestizo-perro",
+    "sex": "macho",
+    "size": "mediano",
+    "color": "tricolor",
+    "coat_type": "corto",
+    "status": "found",
+    "last_seen_date": "2026-06-17",
+    "last_seen_location": "Vicente López, Plaza Mitre",
+    "last_seen_lat": -34.5278,
+    "last_seen_lng": -58.4818,
+    "reward": null,
+    "reporter_name": "Familia García",
+    "reporter_phone": "+54 9 11 9988-7766",
+    "reporter_email": "garcia.fam@example.com",
+    "images": [
+      "https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=800&q=80"
+    ]
+  },
+  {
+    "id": "22222222-2222-4222-8222-222222222204",
+    "name": "Maple",
+    "description": "Gata calicó, super tímida pero buena. Tiene microchip. Recompensa si alguien la encuentra y nos avisa.",
+    "age_years": 2,
+    "breed": "mestizo-gato",
+    "sex": "hembra",
+    "size": "chico",
+    "color": "tricolor",
+    "coat_type": "corto",
+    "status": "lost",
+    "last_seen_date": "2026-06-19",
+    "last_seen_location": "Caballito, Av. Rivadavia 4500",
+    "last_seen_lat": -34.6184,
+    "last_seen_lng": -58.4395,
+    "reward": 30000,
+    "reporter_name": "Andrea",
+    "reporter_phone": "+54 9 11 5544-3322",
+    "reporter_email": "andrea.maple@example.com",
+    "images": [
+      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=800&q=80"
+    ]
+  }
+]

@@ -9,5 +9,8 @@
     "build:web": "pnpm --filter web build",
     "build:admin": "pnpm --filter admin build"
   },
-  "packageManager": "pnpm@10.6.1"
+  "packageManager": "pnpm@10.6.1",
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.95.3"
+  }
 }

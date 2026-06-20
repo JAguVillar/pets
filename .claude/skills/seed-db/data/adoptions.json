@@ -1,0 +1,130 @@
+[
+  {
+    "id": "11111111-1111-4111-8111-111111111101",
+    "name": "Luna",
+    "description": "Una perrita súper dulce que llegó al refugio hace dos meses. Se lleva bien con otros perros y con chicos. Ya está castrada y vacunada al día.",
+    "age_years": 2,
+    "breed": "mestizo-perro",
+    "sex": "hembra",
+    "size": "mediano",
+    "color": "marron",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": "refugio-patitas",
+    "images": [
+      "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111102",
+    "name": "Toto",
+    "description": "Labrador mestizo, súper compañero. Le encanta correr en la plaza y dormir la siesta con los humanos. Ideal para casa con patio.",
+    "age_years": 4,
+    "breed": "mestizo-perro",
+    "sex": "macho",
+    "size": "grande",
+    "color": "dorado",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": null,
+    "images": [
+      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111103",
+    "name": "Mishi",
+    "description": "Gatita joven, muy tranquila y mimosa. Le gusta dormir en lugares altos. Se lleva bien con otros gatos pero prefiere ser hija única.",
+    "age_years": 1,
+    "breed": "mestizo-gato",
+    "sex": "hembra",
+    "size": "chico",
+    "color": "gris",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": "casa-de-los-animales",
+    "images": [
+      "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111104",
+    "name": "Roco",
+    "description": "Un señor perro de 6 años, calmo y leal. Necesita una familia paciente. Tiene displasia leve de cadera pero igual hace su vida tranquilo.",
+    "age_years": 6,
+    "breed": "mestizo-perro",
+    "sex": "macho",
+    "size": "mediano",
+    "color": "negro",
+    "coat_type": "medio",
+    "status": "reserved",
+    "organization": "refugio-patitas",
+    "images": [
+      "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111105",
+    "name": "Pelusa",
+    "description": "Gata persa de 3 años, super peluda y mimosa. Acostumbrada a vivir en departamento.",
+    "age_years": 3,
+    "breed": "mestizo-gato",
+    "sex": "hembra",
+    "size": "chico",
+    "color": "blanco",
+    "coat_type": "largo",
+    "status": "available",
+    "organization": "adopta-norte",
+    "images": [
+      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111106",
+    "name": "Bruno",
+    "description": "Mestizo grande, joven y enérgico. Necesita ejercicio diario y mano firme con educación. Hermoso pelaje marrón.",
+    "age_years": 3,
+    "breed": "mestizo-perro",
+    "sex": "macho",
+    "size": "grande",
+    "color": "marron",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": null,
+    "images": [
+      "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111107",
+    "name": "Nala",
+    "description": "Cachorra de 6 meses encontrada en la calle. Está aprendiendo a hacer sus necesidades en la calle y a caminar con correa.",
+    "age_years": 0.5,
+    "breed": "mestizo-perro",
+    "sex": "hembra",
+    "size": "chico",
+    "color": "tricolor",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": "casa-de-los-animales",
+    "images": [
+      "https://images.unsplash.com/photo-1546975490-e8b92a360b24?w=800&q=80"
+    ]
+  },
+  {
+    "id": "11111111-1111-4111-8111-111111111108",
+    "name": "Simón",
+    "description": "Gato atigrado independiente, perfecto para alguien que trabaja afuera todo el día. Vacunado y castrado.",
+    "age_years": 5,
+    "breed": "mestizo-gato",
+    "sex": "macho",
+    "size": "mediano",
+    "color": "atigrado",
+    "coat_type": "corto",
+    "status": "available",
+    "organization": "adopta-norte",
+    "images": [
+      "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=800&q=80"
+    ]
+  }
+]
