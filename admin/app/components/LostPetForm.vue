@@ -49,6 +49,19 @@ const state = reactive({
   images: props.initial?.images ?? [],
 });
 
+const locationModel = computed({
+  get: () => ({
+    location: state.last_seen_location || null,
+    lat: state.last_seen_lat,
+    lng: state.last_seen_lng,
+  }),
+  set: (v) => {
+    state.last_seen_location = v.location ?? "";
+    state.last_seen_lat = v.lat;
+    state.last_seen_lng = v.lng;
+  },
+});
+
 const schema = z
   .object({
     name: z.string().max(80).optional().nullable(),
@@ -281,6 +294,20 @@ function onSubmit({ data }) {
             class="w-full"
           />
         </UFormField>
+
+        <div class="sm:col-span-2">
+          <p class="text-sm font-medium mb-2">Ubicación</p>
+          <ClientOnly>
+            <LocationPicker v-model="locationModel" />
+            <template #fallback>
+              <div
+                class="h-72 w-full rounded-lg border border-default bg-elevated/30 flex items-center justify-center text-muted text-sm"
+              >
+                Cargando mapa…
+              </div>
+            </template>
+          </ClientOnly>
+        </div>
 
         <UFormField
           label="Lugar"
