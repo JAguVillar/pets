@@ -309,40 +309,6 @@ function onSubmit({ data }) {
           </ClientOnly>
         </div>
 
-        <UFormField
-          label="Lugar"
-          name="last_seen_location"
-          hint="Barrio, calle o referencia"
-          class="sm:col-span-2"
-        >
-          <UInput
-            v-model="state.last_seen_location"
-            placeholder="Palermo, esquina Honduras y Thames"
-            class="w-full"
-          />
-        </UFormField>
-
-        <UFormField label="Latitud" name="last_seen_lat">
-          <UInputNumber
-            v-model="state.last_seen_lat"
-            :step="0.000001"
-            :min="-90"
-            :max="90"
-            placeholder="-34.5"
-            class="w-full"
-          />
-        </UFormField>
-
-        <UFormField label="Longitud" name="last_seen_lng">
-          <UInputNumber
-            v-model="state.last_seen_lng"
-            :step="0.000001"
-            :min="-180"
-            :max="180"
-            placeholder="-58.4"
-            class="w-full"
-          />
-        </UFormField>
       </div>
     </UCard>
 
