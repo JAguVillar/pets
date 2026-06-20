@@ -22,6 +22,11 @@ const toast = useToast();
 const inputRef = ref(null);
 const isDragging = ref(false);
 
+// URLs subidas durante la vida de este componente que todavía no fueron
+// "commiteadas" por el form padre (=guardadas en una fila). Si el componente
+// se desmonta sin commit, las barremos del storage para no dejar huérfanos.
+const sessionUploads = ref(new Set());
+
 const urls = computed({
   get: () => props.modelValue,
   set: (v) => emit("update:modelValue", v),
@@ -30,6 +35,20 @@ const urls = computed({
 const remainingSlots = computed(() =>
   Math.max(0, props.max - urls.value.length),
 );
+
+function commit() {
+  sessionUploads.value.clear();
+}
+
+defineExpose({ commit });
+
+onBeforeUnmount(async () => {
+  if (!sessionUploads.value.size) return;
+  const orphans = [...sessionUploads.value];
+  sessionUploads.value.clear();
+  // Best-effort, sin toasts: el componente ya está por desaparecer.
+  await Promise.allSettled(orphans.map((url) => deletePetImage(url)));
+});
 
 function openPicker() {
   if (props.disabled) return;
@@ -61,6 +80,7 @@ async function handleFiles(fileList) {
     try {
       const { publicUrl } = await uploadPetImage(file);
       uploaded.push(publicUrl);
+      sessionUploads.value.add(publicUrl);
     } catch (e) {
       toast.add({
         title: "Error subiendo imagen",
@@ -75,6 +95,8 @@ async function handleFiles(fileList) {
 async function removeAt(index) {
   const target = urls.value[index];
   urls.value = urls.value.filter((_, i) => i !== index);
+  // Si era de esta sesión, ya no es candidata a orphan.
+  sessionUploads.value.delete(target);
 
   try {
     await deletePetImage(target);

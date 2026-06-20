@@ -123,6 +123,14 @@ watch(
 
 onMounted(loadCatalogs);
 
+const uploaderRef = ref(null);
+
+function commit() {
+  uploaderRef.value?.commit();
+}
+
+defineExpose({ commit });
+
 function onSubmit({ data }) {
   const payload = { ...data };
   delete payload.species_id;
@@ -352,7 +360,7 @@ function onSubmit({ data }) {
       <template #header>
         <h3 class="font-semibold">Imágenes</h3>
       </template>
-      <PetImageUploader v-model="state.images" :max="8" />
+      <PetImageUploader ref="uploaderRef" v-model="state.images" :max="8" />
     </UCard>
 
     <div class="flex justify-end gap-2">

@@ -107,6 +107,14 @@ watch(
 
 onMounted(loadCatalogs);
 
+const uploaderRef = ref(null);
+
+function commit() {
+  uploaderRef.value?.commit();
+}
+
+defineExpose({ commit });
+
 function onSubmit({ data }) {
   // Limpiamos campos null/undefined que no aportan al insert
   const payload = { ...data };
@@ -261,7 +269,7 @@ function onSubmit({ data }) {
       <template #header>
         <h3 class="font-semibold">Imágenes</h3>
       </template>
-      <PetImageUploader v-model="state.images" :max="8" />
+      <PetImageUploader ref="uploaderRef" v-model="state.images" :max="8" />
     </UCard>
 
     <div class="flex justify-end gap-2">

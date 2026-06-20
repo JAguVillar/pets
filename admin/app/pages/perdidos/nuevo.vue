@@ -2,10 +2,12 @@
 const { createLostPet, loading } = useLostPets();
 const toast = useToast();
 const router = useRouter();
+const formRef = ref(null);
 
 async function onSubmit(payload) {
   try {
     const row = await createLostPet(payload);
+    formRef.value?.commit();
     toast.add({ title: "Reporte creado", color: "success" });
     router.push(`/perdidos/${row.id}`);
   } catch (e) {
@@ -24,6 +26,7 @@ async function onSubmit(payload) {
     </div>
 
     <LostPetForm
+      ref="formRef"
       :submitting="loading"
       submit-label="Publicar reporte"
       @submit="onSubmit"

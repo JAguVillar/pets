@@ -6,6 +6,7 @@ const toast = useToast();
 const { getLostPet, updateLostPet, loading } = useLostPets();
 const item = ref(null);
 const loadingInitial = ref(true);
+const formRef = ref(null);
 
 onMounted(async () => {
   try {
@@ -20,6 +21,7 @@ onMounted(async () => {
 async function onSubmit(payload) {
   try {
     await updateLostPet(route.params.id, payload);
+    formRef.value?.commit();
     toast.add({ title: "Cambios guardados", color: "success" });
     router.push(`/perdidos/${route.params.id}`);
   } catch (e) {
@@ -40,6 +42,7 @@ async function onSubmit(payload) {
 
     <LostPetForm
       v-else-if="item"
+      ref="formRef"
       :initial="item"
       :submitting="loading"
       submit-label="Guardar cambios"

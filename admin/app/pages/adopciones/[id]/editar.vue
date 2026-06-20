@@ -6,6 +6,7 @@ const toast = useToast();
 const { getAdoption, updateAdoption, loading } = useAdoptions();
 const adoption = ref(null);
 const loadingInitial = ref(true);
+const formRef = ref(null);
 
 onMounted(async () => {
   try {
@@ -20,6 +21,7 @@ onMounted(async () => {
 async function onSubmit(payload) {
   try {
     await updateAdoption(route.params.id, payload);
+    formRef.value?.commit();
     toast.add({ title: "Cambios guardados", color: "success" });
     router.push(`/adopciones/${route.params.id}`);
   } catch (e) {
@@ -40,6 +42,7 @@ async function onSubmit(payload) {
 
     <AdopcionForm
       v-else-if="adoption"
+      ref="formRef"
       :initial="adoption"
       :submitting="loading"
       submit-label="Guardar cambios"

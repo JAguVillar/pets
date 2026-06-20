@@ -2,10 +2,12 @@
 const { createAdoption, loading } = useAdoptions();
 const toast = useToast();
 const router = useRouter();
+const formRef = ref(null);
 
 async function onSubmit(payload) {
   try {
     const row = await createAdoption(payload);
+    formRef.value?.commit();
     toast.add({ title: "Publicación creada", color: "success" });
     router.push(`/adopciones/${row.id}`);
   } catch (e) {
@@ -22,6 +24,7 @@ async function onSubmit(payload) {
     </div>
 
     <AdopcionForm
+      ref="formRef"
       :submitting="loading"
       submit-label="Publicar"
       @submit="onSubmit"
