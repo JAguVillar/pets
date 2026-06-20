@@ -1,38 +1,60 @@
 <script setup>
 const user = useSupabaseUser();
 const route = useRoute();
-const { profile, loadMyProfile } = useProfile();
+const { profile, isAdmin, loadMyProfile } = useProfile();
 
 const open = ref(false);
 
-const links = [
-  [
-    {
-      label: "Inicio",
-      icon: "i-lucide-home",
-      to: "/",
-      onSelect: () => (open.value = false),
-    },
-  ],
-  [
-    {
-      label: "Adopciones",
-      icon: "i-lucide-heart-handshake",
-      to: "/adopciones",
-      onSelect: () => (open.value = false),
-    },
-    {
-      label: "Perdidos",
-      icon: "i-lucide-search-x",
-      to: "/perdidos",
-      onSelect: () => (open.value = false),
-    },
-  ],
-];
+const links = computed(() => {
+  const base = [
+    [
+      {
+        label: "Inicio",
+        icon: "i-lucide-home",
+        to: "/",
+        onSelect: () => (open.value = false),
+      },
+    ],
+    [
+      {
+        label: "Adopciones",
+        icon: "i-lucide-heart-handshake",
+        to: "/adopciones",
+        onSelect: () => (open.value = false),
+      },
+      {
+        label: "Perdidos",
+        icon: "i-lucide-search-x",
+        to: "/perdidos",
+        onSelect: () => (open.value = false),
+      },
+    ],
+  ];
+  if (isAdmin.value) {
+    base.push([
+      {
+        label: "Organizaciones",
+        icon: "i-lucide-building-2",
+        to: "/organizaciones",
+        onSelect: () => (open.value = false),
+      },
+    ]);
+  }
+  return base;
+});
 
-const flatLinks = computed(() => links.flat());
+const flatLinks = computed(() => links.value.flat());
+
+// Rutas que viven fuera del sidebar pero queremos titular igual.
+const offNavTitles = {
+  "/perfil": "Mi perfil",
+  "/organizaciones": "Organizaciones",
+};
 
 const pageTitle = computed(() => {
+  for (const [path, label] of Object.entries(offNavTitles)) {
+    if (route.path === path || route.path.startsWith(path + "/")) return label;
+  }
   const match = [...flatLinks.value]
     .sort((a, b) => b.to.length - a.to.length)
     .find((l) => route.path === l.to || route.path.startsWith(l.to + "/"));
