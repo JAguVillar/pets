@@ -1,7 +1,7 @@
 ---
 import { supabase } from "../../lib/supabase.js";
+import PetCard from "./PetCard.astro";
 
-// Build-time fetch — si llegamos a SSR después, este mismo código corre por request.
 let pets = [];
 let fetchError = null;
 try {
@@ -29,12 +29,6 @@ try {
   fetchError = e;
   console.warn("[landing/AdoptionGrid] supabase fetch failed:", e.message);
 }
-
-function ageLabel(years) {
-  if (years == null) return null;
-  if (years < 1) return "Cachorro";
-  return `${years} ${years === 1 ? "año" : "años"}`;
-}
 ---
 
 <section
@@ -55,7 +49,7 @@ function ageLabel(years) {
       </h2>
     </div>
     <a
-      href="#adopcion"
+      href="/adopciones"
       class="font-bold text-sm text-emerald-600 hover:text-emerald-700 inline-flex items-center gap-1.5"
     >
       Ver todas
@@ -75,100 +69,7 @@ function ageLabel(years) {
 
   {pets.length > 0 ? (
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      {pets.map((p) => (
-        <a
-          href="#adopcion"
-          class="group bg-white border border-slate-200/70 rounded-[20px] overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(15,23,42,0.1)]"
-        >
-          <div class="aspect-square relative bg-slate-100">
-            {p.images?.[0] ? (
-              <img
-                src={p.images[0]}
-                alt={p.name}
-                loading="lazy"
-                width="320"
-                height="320"
-                class="w-full h-full object-cover"
-              />
-            ) : (
-              <div class="w-full h-full flex items-center justify-center text-slate-300">
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <circle cx="5.5" cy="10.5" r="2.2"></circle>
-                  <circle cx="9.5" cy="6.5" r="2.2"></circle>
-                  <circle cx="14.5" cy="6.5" r="2.2"></circle>
-                  <circle cx="18.5" cy="10.5" r="2.2"></circle>
-                  <path
-                    d="M12 12c-2.5 0-4.5 2.2-4.5 4.4 0 1.8 1.6 2.6 4.5 2.6s4.5-.8 4.5-2.6C16.5 14.2 14.5 12 12 12Z"
-                  ></path>
-                </svg>
-              </div>
-            )}
-            <span
-              class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 inline-flex items-center justify-center text-slate-500 hover:text-emerald-500 transition-colors"
-              aria-label="Guardar"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true"
-              >
-                <path
-                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.49 4.04 3 5.5l7 7Z"
-                ></path>
-              </svg>
-            </span>
-          </div>
-          <div class="px-4 pt-4 pb-5">
-            <div class="font-bold text-lg text-slate-900 mb-2.5">{p.name}</div>
-            <div class="flex flex-wrap gap-1.5 mb-3">
-              {p.breed?.species?.name && (
-                <span class="font-semibold text-[11px] text-slate-600 bg-slate-100 px-2 py-1 rounded-full">
-                  {p.breed.species.name}
-                </span>
-              )}
-              {ageLabel(p.age_years) && (
-                <span class="font-semibold text-[11px] text-slate-600 bg-slate-100 px-2 py-1 rounded-full">
-                  {ageLabel(p.age_years)}
-                </span>
-              )}
-              {p.size?.name && (
-                <span class="font-semibold text-[11px] text-slate-600 bg-slate-100 px-2 py-1 rounded-full">
-                  {p.size.name}
-                </span>
-              )}
-            </div>
-            <div
-              class="flex items-center gap-1.5 font-medium text-xs text-slate-400"
-            >
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true"
-              >
-                <path
-                  d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              {p.organization?.name ?? "Particular"}
-            </div>
-          </div>
-        </a>
-      ))}
+      {pets.map((p) => <PetCard pet={p} />)}
     </div>
   ) : (
     <div
