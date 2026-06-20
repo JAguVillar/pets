@@ -21,18 +21,6 @@ const SELECT_FULL = `
   organization:organization_id (name, verified, email, phone)
 `;
 
-export async function getStaticPaths() {
-  const { data, error } = await supabase
-    .from("animals_for_adoption")
-    .select("id")
-    .order("created_at", { ascending: false });
-  if (error) {
-    console.warn("[adopciones/[id]] getStaticPaths failed:", error.message);
-    return [];
-  }
-  return (data ?? []).map((p) => ({ params: { id: p.id } }));
-}
-
 const { id } = Astro.params;
 
 const { data: pet, error } = await supabase
@@ -44,6 +32,7 @@ const { data: pet, error } = await supabase
 if (error) console.warn("[adopciones/[id]] fetch failed:", error.message);
 
 const notFound = !pet;
+if (notFound) Astro.response.status = 404;
 const primary = pet?.images?.[0] ?? null;
 const rest = pet?.images?.slice(1) ?? [];
 

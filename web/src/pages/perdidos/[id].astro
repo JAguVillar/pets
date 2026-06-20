@@ -28,18 +28,6 @@ const SELECT_FULL = `
   size:size_id (name)
 `;
 
-export async function getStaticPaths() {
-  const { data, error } = await supabase
-    .from("lost_pets")
-    .select("id")
-    .order("created_at", { ascending: false });
-  if (error) {
-    console.warn("[perdidos/[id]] getStaticPaths failed:", error.message);
-    return [];
-  }
-  return (data ?? []).map((p) => ({ params: { id: p.id } }));
-}
-
 const { id } = Astro.params;
 
 const { data: item, error } = await supabase
@@ -51,6 +39,7 @@ const { data: item, error } = await supabase
 if (error) console.warn("[perdidos/[id]] fetch failed:", error.message);
 
 const notFound = !item;
+if (notFound) Astro.response.status = 404;
 const primary = item?.images?.[0] ?? null;
 const rest = item?.images?.slice(1) ?? [];
 
