@@ -2,6 +2,7 @@
 // Centralizado en el server para mandar un User-Agent identificable y
 // respetar la política de uso de Nominatim. Cache simple en memoria.
 const cache = new Map();
+const MAX_CACHE = 500;
 const UA = "PetsApp/1.0 (reportes de mascotas perdidas)";
 
 export default defineEventHandler(async (event) => {
@@ -30,6 +31,9 @@ export default defineEventHandler(async (event) => {
       lat: Number(r.lat),
       lng: Number(r.lon),
     }));
+    if (cache.size >= MAX_CACHE) {
+      cache.delete(cache.keys().next().value);
+    }
     cache.set(query, mapped);
     return mapped;
   } catch (e) {

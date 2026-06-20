@@ -3,7 +3,7 @@ const UA = "PetsApp/1.0 (reportes de mascotas perdidas)";
 
 export default defineEventHandler(async (event) => {
   const { lat, lng } = getQuery(event);
-  if (lat == null || lng == null) return { name: null };
+  if (!lat || !lng) return { name: null };
 
   try {
     const r = await $fetch("https://nominatim.openstreetmap.org/reverse", {
