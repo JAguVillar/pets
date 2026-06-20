@@ -1,0 +1,449 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/landing/Nav.astro";
+import Footer from "../../components/landing/Footer.astro";
+import { supabase } from "../../lib/supabase.js";
+import { ROUTES } from "../../lib/config.js";
+
+const SELECT_FULL = `
+  id,
+  name,
+  description,
+  age_years,
+  images,
+  created_at,
+  last_seen_date,
+  last_seen_location,
+  last_seen_lat,
+  last_seen_lng,
+  reward,
+  reporter_name,
+  reporter_phone,
+  reporter_email,
+  breed:breed_id (name, species:species_id (name, icon)),
+  status:status_id (slug, name, color),
+  color:color_id (name),
+  coat_type:coat_type_id (name),
+  sex:sex_id (name),
+  size:size_id (name)
+`;
+
+export async function getStaticPaths() {
+  const { data, error } = await supabase
+    .from("lost_pets")
+    .select("id")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.warn("[perdidos/[id]] getStaticPaths failed:", error.message);
+    return [];
+  }
+  return (data ?? []).map((p) => ({ params: { id: p.id } }));
+}
+
+const { id } = Astro.params;
+
+const { data: item, error } = await supabase
+  .from("lost_pets")
+  .select(SELECT_FULL)
+  .eq("id", id)
+  .maybeSingle();
+
+if (error) console.warn("[perdidos/[id]] fetch failed:", error.message);
+
+const notFound = !item;
+const primary = item?.images?.[0] ?? null;
+const rest = item?.images?.slice(1) ?? [];
+
+const hasGeo =
+  item?.last_seen_lat != null && item?.last_seen_lng != null;
+const mapsUrl = hasGeo
+  ? `https://www.google.com/maps?q=${item.last_seen_lat},${item.last_seen_lng}`
+  : null;
+
+function formatDateLong(iso) {
+  if (!iso) return null;
+  return new Intl.DateTimeFormat("es-AR", { dateStyle: "long" }).format(
+    new Date(iso),
+  );
+}
+
+function moneyAR(v) {
+  if (v == null) return null;
+  return `$ ${new Intl.NumberFormat("es-AR").format(v)}`;
+}
+
+function ageLabel(years) {
+  if (years == null) return "—";
+  if (years < 1) return "Cachorro";
+  return `${years} ${years === 1 ? "año" : "años"}`;
+}
+
+const title = item
+  ? `${item.name || "Mascota perdida"} · Pets`
+  : "Reporte no encontrado · Pets";
+const description = item
+  ? `${item.name || "Una mascota"} está perdida${item.last_seen_location ? ` en ${item.last_seen_location}` : ""}. Si la viste, contactá a la familia.`
+  : undefined;
+---
+
+<Layout title={title} description={description}>
+  <Nav />
+  <main>
+    {notFound ? (
+      <section class="max-w-3xl mx-auto px-5 sm:px-10 py-20 text-center">
+        <div class="text-7xl mb-4">🐾</div>
+        <h1 class="font-extrabold text-3xl text-slate-900 mb-3">
+          No encontramos este reporte
+        </h1>
+        <p class="text-slate-500 mb-6">
+          Puede que ya haya sido reunida o el link esté roto.
+        </p>
+        <a
+          href="/perdidos"
+          class="bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors inline-block"
+        >
+          Volver a perdidos
+        </a>
+      </section>
+    ) : (
+      <section
+        class="max-w-6xl mx-auto px-5 sm:px-10 lg:px-12 pt-10 lg:pt-14 pb-20"
+      >
+        <nav aria-label="Migas" class="mb-6 text-sm text-slate-500">
+          <a href="/" class="hover:text-slate-900 transition-colors">Inicio</a>
+          <span class="mx-2 text-slate-300">/</span>
+          <a href="/perdidos" class="hover:text-slate-900 transition-colors">
+            Perdidos
+          </a>
+          <span class="mx-2 text-slate-300">/</span>
+          <span class="text-slate-900 font-medium">
+            {item.name || "Sin nombre"}
+          </span>
+        </nav>
+
+        <div class="flex items-start justify-between gap-3 flex-wrap mb-8">
+          <div>
+            <h1
+              class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight inline-flex items-center gap-3 flex-wrap"
+            >
+              {item.name || "Sin nombre"}
+              {item.status && (
+                <span
+                  class="inline-flex items-center font-semibold text-sm rounded-full px-3 py-1"
+                  style={`background-color:${item.status.color}20;color:${item.status.color};`}
+                >
+                  {item.status.name}
+                </span>
+              )}
+            </h1>
+            {item.last_seen_location && (
+              <p class="text-base text-slate-500 mt-2 inline-flex items-center gap-1.5">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                  ></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                {item.last_seen_location}
+              </p>
+            )}
+          </div>
+          <a
+            href={ROUTES.adminLogin}
+            class="bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors"
+          >
+            La vi
+          </a>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-12">
+          <div class="lg:col-span-7 space-y-3">
+            <div
+              class="rounded-3xl overflow-hidden border border-orange-200 bg-orange-50"
+            >
+              {primary ? (
+                <img
+                  src={primary}
+                  alt={item.name || "Mascota perdida"}
+                  class="w-full h-[360px] sm:h-[440px] object-cover"
+                  fetchpriority="high"
+                />
+              ) : (
+                <div
+                  class="h-[360px] sm:h-[440px] flex items-center justify-center text-orange-300"
+                >
+                  <svg
+                    width="80"
+                    height="80"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <circle cx="5.5" cy="10.5" r="2.2"></circle>
+                    <circle cx="9.5" cy="6.5" r="2.2"></circle>
+                    <circle cx="14.5" cy="6.5" r="2.2"></circle>
+                    <circle cx="18.5" cy="10.5" r="2.2"></circle>
+                    <path
+                      d="M12 12c-2.5 0-4.5 2.2-4.5 4.4 0 1.8 1.6 2.6 4.5 2.6s4.5-.8 4.5-2.6C16.5 14.2 14.5 12 12 12Z"
+                    ></path>
+                  </svg>
+                </div>
+              )}
+            </div>
+            {rest.length > 0 && (
+              <div class="grid grid-cols-4 gap-2">
+                {rest.map((src, i) => (
+                  <img
+                    src={src}
+                    alt={`Foto ${i + 2}`}
+                    loading="lazy"
+                    class="aspect-square object-cover rounded-xl border border-orange-200"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div class="lg:col-span-5 space-y-5">
+            <div
+              class="bg-white border border-orange-200 rounded-2xl p-6 sm:p-7"
+            >
+              <h2 class="font-bold text-lg text-orange-900 mb-4">
+                Última vez vista
+              </h2>
+              <dl class="space-y-3 text-sm">
+                {item.last_seen_date && (
+                  <div>
+                    <dt class="text-slate-400">Fecha</dt>
+                    <dd class="font-semibold text-slate-900">
+                      {formatDateLong(item.last_seen_date)}
+                    </dd>
+                  </div>
+                )}
+                {item.last_seen_location && (
+                  <div>
+                    <dt class="text-slate-400">Lugar</dt>
+                    <dd class="font-semibold text-slate-900">
+                      {item.last_seen_location}
+                    </dd>
+                  </div>
+                )}
+                {hasGeo && (
+                  <div>
+                    <dt class="text-slate-400">Coordenadas</dt>
+                    <dd>
+                      <a
+                        href={mapsUrl}
+                        target="_blank"
+                        rel="noopener"
+                        class="text-orange-700 hover:underline font-semibold inline-flex items-center gap-1.5"
+                      >
+                        Ver en Google Maps
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                          ></path>
+                          <path d="M15 3h6v6M10 14 21 3"></path>
+                        </svg>
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {item.reward != null && (
+                  <div
+                    class="pt-3 border-t border-orange-100 flex items-center gap-2"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#16a34a"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+                      <path
+                        d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"
+                      ></path>
+                    </svg>
+                    <div>
+                      <div class="text-xs text-slate-400">Recompensa</div>
+                      <div class="font-extrabold text-green-600">
+                        {moneyAR(item.reward)}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </dl>
+            </div>
+
+            <div
+              class="bg-white border border-slate-200/70 rounded-2xl p-6 sm:p-7"
+            >
+              <h2 class="font-bold text-lg text-slate-900 mb-4">
+                Características
+              </h2>
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                <div>
+                  <dt class="text-slate-400">Especie</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.breed?.species?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Raza</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.breed?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Edad</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {ageLabel(item.age_years)}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Sexo</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.sex?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Tamaño</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.size?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Color</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.color?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Pelo</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {item.coat_type?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Reportada</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {formatDateLong(item.created_at) ?? "—"}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            {(item.reporter_name ||
+              item.reporter_phone ||
+              item.reporter_email) && (
+              <div
+                class="bg-slate-50 border border-slate-200/70 rounded-2xl p-6 sm:p-7"
+              >
+                <h2 class="font-bold text-lg text-slate-900 mb-3">
+                  Contacto
+                </h2>
+                <div class="space-y-2 text-sm">
+                  {item.reporter_name && (
+                    <p class="font-semibold text-slate-900 inline-flex items-center gap-2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#64748b"
+                        stroke-width="2"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                        ></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                      </svg>
+                      {item.reporter_name}
+                    </p>
+                  )}
+                  {item.reporter_phone && (
+                    <p class="text-slate-600 inline-flex items-center gap-2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#64748b"
+                        stroke-width="2"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"
+                        ></path>
+                      </svg>
+                      <a
+                        href={`tel:${item.reporter_phone}`}
+                        class="hover:text-orange-700 hover:underline"
+                      >
+                        {item.reporter_phone}
+                      </a>
+                    </p>
+                  )}
+                  {item.reporter_email && (
+                    <p class="text-slate-600 inline-flex items-center gap-2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#64748b"
+                        stroke-width="2"
+                        aria-hidden="true"
+                      >
+                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                        <path d="m22 7-10 5L2 7"></path>
+                      </svg>
+                      <a
+                        href={`mailto:${item.reporter_email}`}
+                        class="hover:text-orange-700 hover:underline"
+                      >
+                        {item.reporter_email}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {item.description && (
+          <div
+            class="bg-white border border-slate-200/70 rounded-2xl p-6 sm:p-8 mt-6"
+          >
+            <h2 class="font-bold text-lg text-slate-900 mb-3">Descripción</h2>
+            <p class="text-slate-700 leading-relaxed whitespace-pre-wrap">
+              {item.description}
+            </p>
+          </div>
+        )}
+      </section>
+    )}
+  </main>
+  <Footer />
+</Layout>

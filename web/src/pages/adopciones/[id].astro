@@ -1,0 +1,339 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/landing/Nav.astro";
+import Footer from "../../components/landing/Footer.astro";
+import { supabase } from "../../lib/supabase.js";
+import { ROUTES } from "../../lib/config.js";
+
+const SELECT_FULL = `
+  id,
+  name,
+  description,
+  age_years,
+  images,
+  created_at,
+  breed:breed_id (name, species:species_id (name, icon)),
+  status:status_id (slug, name, color),
+  color:color_id (name),
+  coat_type:coat_type_id (name),
+  sex:sex_id (name),
+  size:size_id (name),
+  organization:organization_id (name, verified, email, phone)
+`;
+
+export async function getStaticPaths() {
+  const { data, error } = await supabase
+    .from("animals_for_adoption")
+    .select("id")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.warn("[adopciones/[id]] getStaticPaths failed:", error.message);
+    return [];
+  }
+  return (data ?? []).map((p) => ({ params: { id: p.id } }));
+}
+
+const { id } = Astro.params;
+
+const { data: pet, error } = await supabase
+  .from("animals_for_adoption")
+  .select(SELECT_FULL)
+  .eq("id", id)
+  .maybeSingle();
+
+if (error) console.warn("[adopciones/[id]] fetch failed:", error.message);
+
+const notFound = !pet;
+const primary = pet?.images?.[0] ?? null;
+const rest = pet?.images?.slice(1) ?? [];
+
+function formatDate(iso) {
+  if (!iso) return null;
+  return new Intl.DateTimeFormat("es-AR", { dateStyle: "long" }).format(
+    new Date(iso),
+  );
+}
+
+function ageLabel(years) {
+  if (years == null) return "—";
+  if (years < 1) return "Cachorro";
+  return `${years} ${years === 1 ? "año" : "años"}`;
+}
+
+const title = pet ? `${pet.name} · Pets` : "Mascota no encontrada · Pets";
+const description = pet
+  ? `${pet.name} busca familia${pet.breed?.species?.name ? ` — ${pet.breed.species.name}` : ""}.`
+  : undefined;
+---
+
+<Layout title={title} description={description}>
+  <Nav />
+  <main>
+    {notFound ? (
+      <section
+        class="max-w-3xl mx-auto px-5 sm:px-10 py-20 text-center"
+      >
+        <div class="text-7xl mb-4">🐾</div>
+        <h1 class="font-extrabold text-3xl text-slate-900 mb-3">
+          No encontramos esta publicación
+        </h1>
+        <p class="text-slate-500 mb-6">
+          Puede que se haya dado de baja o el link esté roto.
+        </p>
+        <a
+          href="/adopciones"
+          class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors inline-block"
+        >
+          Volver a adopciones
+        </a>
+      </section>
+    ) : (
+      <section
+        class="max-w-6xl mx-auto px-5 sm:px-10 lg:px-12 pt-10 lg:pt-14 pb-20"
+      >
+        <nav aria-label="Migas" class="mb-6 text-sm text-slate-500">
+          <a href="/" class="hover:text-slate-900 transition-colors">Inicio</a>
+          <span class="mx-2 text-slate-300">/</span>
+          <a href="/adopciones" class="hover:text-slate-900 transition-colors">
+            Adopciones
+          </a>
+          <span class="mx-2 text-slate-300">/</span>
+          <span class="text-slate-900 font-medium">{pet.name}</span>
+        </nav>
+
+        <div class="flex items-start justify-between gap-3 flex-wrap mb-8">
+          <div>
+            <h1
+              class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight inline-flex items-center gap-3 flex-wrap"
+            >
+              {pet.name}
+              {pet.status && (
+                <span
+                  class="inline-flex items-center font-semibold text-sm rounded-full px-3 py-1"
+                  style={`background-color:${pet.status.color}20;color:${pet.status.color};`}
+                >
+                  {pet.status.name}
+                </span>
+              )}
+            </h1>
+          </div>
+          <a
+            href={ROUTES.adminLogin}
+            class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors"
+          >
+            Me interesa
+          </a>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-12">
+          <div class="lg:col-span-7 space-y-3">
+            <div
+              class="rounded-3xl overflow-hidden border border-slate-200 bg-slate-50"
+            >
+              {primary ? (
+                <img
+                  src={primary}
+                  alt={pet.name}
+                  class="w-full h-[360px] sm:h-[440px] object-cover"
+                  fetchpriority="high"
+                />
+              ) : (
+                <div
+                  class="h-[360px] sm:h-[440px] flex items-center justify-center text-slate-300"
+                >
+                  <svg
+                    width="80"
+                    height="80"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <circle cx="5.5" cy="10.5" r="2.2"></circle>
+                    <circle cx="9.5" cy="6.5" r="2.2"></circle>
+                    <circle cx="14.5" cy="6.5" r="2.2"></circle>
+                    <circle cx="18.5" cy="10.5" r="2.2"></circle>
+                    <path
+                      d="M12 12c-2.5 0-4.5 2.2-4.5 4.4 0 1.8 1.6 2.6 4.5 2.6s4.5-.8 4.5-2.6C16.5 14.2 14.5 12 12 12Z"
+                    ></path>
+                  </svg>
+                </div>
+              )}
+            </div>
+            {rest.length > 0 && (
+              <div class="grid grid-cols-4 gap-2">
+                {rest.map((src, i) => (
+                  <img
+                    src={src}
+                    alt={`Foto ${i + 2}`}
+                    loading="lazy"
+                    class="aspect-square object-cover rounded-xl border border-slate-200"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div class="lg:col-span-5 space-y-5">
+            <div
+              class="bg-white border border-slate-200/70 rounded-2xl p-6 sm:p-7"
+            >
+              <h2 class="font-bold text-lg text-slate-900 mb-4">
+                Características
+              </h2>
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-3.5 text-sm">
+                <div>
+                  <dt class="text-slate-400">Especie</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.breed?.species?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Raza</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.breed?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Edad</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {ageLabel(pet.age_years)}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Sexo</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.sex?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Tamaño</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.size?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Color</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.color?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Pelo</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {pet.coat_type?.name ?? "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-slate-400">Publicada</dt>
+                  <dd class="font-semibold text-slate-900">
+                    {formatDate(pet.created_at) ?? "—"}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            {pet.organization && (
+              <div
+                class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-6 sm:p-7"
+              >
+                <div class="flex items-center gap-2 mb-2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#047857"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"></path>
+                    <path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"></path>
+                  </svg>
+                  <h2 class="font-bold text-lg text-slate-900">Refugio</h2>
+                </div>
+                <p class="font-semibold text-slate-900 mb-1 flex items-center gap-1.5">
+                  {pet.organization.name}
+                  {pet.organization.verified && (
+                    <span
+                      class="inline-flex items-center gap-1 font-semibold text-[11px] text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full"
+                    >
+                      <svg
+                        width="11"
+                        height="11"
+                        viewBox="0 0 24 24"
+                        fill="#047857"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M12 2 9.5 4.7l-3.6.5-.8 3.5-3.1 1.8 1.9 3-1.9 3 3.1 1.8.8 3.5 3.6.5L12 25l2.5-2.7 3.6-.5.8-3.5 3.1-1.8-1.9-3 1.9-3-3.1-1.8-.8-3.5-3.6-.5L12 2Z"
+                        ></path>
+                        <path
+                          d="m9 12 2 2 4-4"
+                          stroke="white"
+                          stroke-width="2.5"
+                          fill="none"
+                        ></path>
+                      </svg>
+                      Verificado
+                    </span>
+                  )}
+                </p>
+                {pet.organization.email && (
+                  <p class="text-sm text-slate-600 mb-0.5">
+                    <a
+                      href={`mailto:${pet.organization.email}`}
+                      class="hover:text-emerald-700 hover:underline"
+                    >
+                      {pet.organization.email}
+                    </a>
+                  </p>
+                )}
+                {pet.organization.phone && (
+                  <p class="text-sm text-slate-600">
+                    <a
+                      href={`tel:${pet.organization.phone}`}
+                      class="hover:text-emerald-700 hover:underline"
+                    >
+                      {pet.organization.phone}
+                    </a>
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {pet.description && (
+          <div
+            class="bg-white border border-slate-200/70 rounded-2xl p-6 sm:p-8 mt-6"
+          >
+            <h2 class="font-bold text-lg text-slate-900 mb-3">Su historia</h2>
+            <p class="text-slate-700 leading-relaxed whitespace-pre-wrap">
+              {pet.description}
+            </p>
+          </div>
+        )}
+
+        <div
+          class="bg-emerald-500 rounded-2xl px-6 sm:px-8 py-7 mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        >
+          <div>
+            <p class="font-extrabold text-xl text-white mb-1">
+              ¿Te imaginás a {pet.name} en tu casa?
+            </p>
+            <p class="text-emerald-50 text-sm">
+              Creá tu cuenta y contactá al refugio en segundos.
+            </p>
+          </div>
+          <a
+            href={ROUTES.adminLogin}
+            class="bg-white text-emerald-700 font-extrabold text-sm px-6 py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-lg transition-all"
+          >
+            Me interesa
+          </a>
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,107 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/landing/Nav.astro";
+import Footer from "../../components/landing/Footer.astro";
+import PetCard from "../../components/landing/PetCard.astro";
+import { supabase } from "../../lib/supabase.js";
+import { ROUTES } from "../../lib/config.js";
+
+let pets = [];
+let fetchError = null;
+try {
+  const { data, error } = await supabase
+    .from("animals_for_adoption")
+    .select(
+      `
+        id,
+        name,
+        age_years,
+        images,
+        breed:breed_id (name, species:species_id (name, icon)),
+        size:size_id (name),
+        sex:sex_id (name),
+        status:status_id!inner (slug, name),
+        organization:organization_id (name)
+      `,
+    )
+    .eq("status.slug", "available")
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  pets = data ?? [];
+} catch (e) {
+  fetchError = e;
+  console.warn("[pages/adopciones] supabase fetch failed:", e.message);
+}
+---
+
+<Layout title="Mascotas en adopción · Pets">
+  <Nav />
+  <main>
+    <section
+      class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 pt-12 lg:pt-16 pb-10"
+    >
+      <nav aria-label="Migas" class="mb-5 text-sm text-slate-500">
+        <a href="/" class="hover:text-slate-900 transition-colors">Inicio</a>
+        <span class="mx-2 text-slate-300">/</span>
+        <span class="text-slate-900 font-medium">Adopciones</span>
+      </nav>
+
+      <div class="flex items-end justify-between gap-4 flex-wrap">
+        <div>
+          <div
+            class="font-bold text-[13px] uppercase tracking-[.1em] text-emerald-600 mb-2"
+          >
+            En adopción
+          </div>
+          <h1
+            class="font-extrabold text-3xl sm:text-4xl lg:text-5xl leading-tight text-slate-900 tracking-tight"
+          >
+            Esperando una familia.
+          </h1>
+          <p class="text-base text-slate-500 mt-3 max-w-xl">
+            {pets.length}
+            {pets.length === 1 ? " mascota disponible" : " mascotas disponibles"}.
+            Hacé click en cualquiera para ver el detalle.
+          </p>
+        </div>
+        <a
+          href={ROUTES.adminAdoptionsNew}
+          class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-5 py-3 rounded-xl transition-colors"
+        >
+          Publicar mascota
+        </a>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 pb-20">
+      {pets.length > 0 ? (
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {pets.map((p) => <PetCard pet={p} />)}
+        </div>
+      ) : (
+        <div
+          class="bg-slate-50 border border-dashed border-slate-200 rounded-[20px] p-16 text-center"
+        >
+          <div class="font-bold text-xl text-slate-900 mb-2">
+            {fetchError
+              ? "No pudimos cargar las publicaciones"
+              : "Todavía no hay mascotas en adopción"}
+          </div>
+          <p class="text-sm text-slate-500 mb-6 max-w-md mx-auto">
+            {fetchError
+              ? "Hubo un problema cargando los datos. Probá refrescar en un momento."
+              : "Apenas haya publicaciones, van a aparecer acá. Si querés sumar la primera, hacelo desde la app."}
+          </p>
+          <a
+            href={ROUTES.adminAdoptionsNew}
+            class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors inline-block"
+          >
+            Publicar mascota
+          </a>
+        </div>
+      )}
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -6,25 +6,23 @@ const columns = [
   {
     title: "Adopciones",
     links: [
-      { label: "Perros", href: "#adopcion" },
-      { label: "Gatos", href: "#adopcion" },
-      { label: "Refugios", href: "#refugios" },
+      { label: "Ver todas", href: "/adopciones" },
+      { label: "Publicar", href: ROUTES.adminAdoptionsNew },
+      { label: "Refugios", href: "/#refugios" },
     ],
   },
   {
     title: "Perdidos",
     links: [
+      { label: "Ver reportes", href: "/perdidos" },
       { label: "Reportar pérdida", href: ROUTES.adminLostNew },
-      { label: "Encontrados", href: "#perdidos" },
-      { label: "Mapa", href: "#perdidos" },
     ],
   },
   {
     title: "Refugios",
     links: [
       { label: "Sumar refugio", href: ROUTES.adminLogin },
-      { label: "Verificación", href: "#refugios" },
-      { label: "Recursos", href: "#refugios" },
+      { label: "Verificación", href: "/#refugios" },
     ],
   },
   {
