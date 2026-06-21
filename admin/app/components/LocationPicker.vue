@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
       />
       <ul
         v-if="suggestions.length"
-        class="absolute z-[1000] mt-1 w-full bg-default border border-default rounded-lg shadow-lg max-h-60 overflow-auto"
+        class="absolute z-[1100] mt-1 w-full bg-default border border-default rounded-lg shadow-lg max-h-60 overflow-auto"
       >
         <li
           v-for="(s, i) in suggestions"

@@ -5,6 +5,12 @@ const cache = new Map();
 const MAX_CACHE = 500;
 const UA = "PetsApp/1.0 (reportes de mascotas perdidas)";
 
+// Sesgo de resultados hacia Santiago del Estero capital + La Banda, para que
+// una dirección sin ciudad ("Av. Belgrano 500") resuelva en la zona y no en
+// Buenos Aires. bounded=0 prioriza sin restringir (lugares de afuera siguen
+// apareciendo, más abajo). Formato viewbox: lon_min,lat_min,lon_max,lat_max.
+const SDE_VIEWBOX = "-64.40,-27.65,-64.15,-27.92";
+
 export default defineEventHandler(async (event) => {
   const { q } = getQuery(event);
   const query = String(q ?? "").trim();
@@ -22,6 +28,8 @@ export default defineEventHandler(async (event) => {
           limit: 5,
           "accept-language": "es",
           countrycodes: "ar",
+          viewbox: SDE_VIEWBOX,
+          bounded: 0,
         },
         headers: { "User-Agent": UA },
       },
