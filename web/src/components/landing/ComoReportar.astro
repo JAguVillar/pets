@@ -1,0 +1,61 @@
+---
+const steps = [
+  {
+    n: "Paso 1",
+    title: "Reportá",
+    desc: "Cargá la foto, la zona donde la viste por última vez y un contacto. Toma dos minutos.",
+    icon: `<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle>`,
+  },
+  {
+    n: "Paso 2",
+    title: "Difundí",
+    desc: "El reporte aparece en el mapa de la zona. Cuantos más ojos, más chances.",
+    icon: `<circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"></path>`,
+  },
+  {
+    n: "Paso 3",
+    title: "Reencontrá",
+    desc: "Quien la vea contacta a la familia desde el detalle. Un mensaje puede cambiar todo.",
+    icon: `<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.49 4.04 3 5.5l7 7Z"></path>`,
+  },
+];
+---
+
+<section class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-14 lg:py-16">
+  <div class="mb-7">
+    <div
+      class="font-bold text-[13px] uppercase tracking-[.1em] text-orange-600 mb-2"
+    >
+      Cómo reportar
+    </div>
+    <h2
+      class="font-extrabold text-2xl sm:text-3xl lg:text-[32px] leading-tight text-slate-900 tracking-tight"
+    >
+      Reportar es gratis y rápido.
+    </h2>
+  </div>
+
+  <div class="grid sm:grid-cols-3 gap-5">
+    {steps.map((s) => (
+      <div class="flex gap-4 items-start bg-orange-50 border border-orange-200/70 rounded-[20px] p-6">
+        <span class="shrink-0 w-12 h-12 rounded-[14px] bg-orange-100 inline-flex items-center justify-center">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ea580c"
+            stroke-width="2.2"
+            aria-hidden="true"
+            set:html={s.icon}
+          />
+        </span>
+        <div>
+          <div class="font-semibold text-xs text-orange-400 mb-1">{s.n}</div>
+          <div class="font-bold text-lg text-slate-900 mb-1">{s.title}</div>
+          <p class="text-sm leading-relaxed text-slate-500 m-0">{s.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
