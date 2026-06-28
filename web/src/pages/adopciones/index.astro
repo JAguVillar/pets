@@ -5,6 +5,9 @@ import Footer from "../../components/landing/Footer.astro";
 import PetCard from "../../components/landing/PetCard.astro";
 import { supabase } from "../../lib/supabase.js";
 import { ROUTES } from "../../lib/config.js";
+import ComoAdoptar from "../../components/landing/ComoAdoptar.astro";
+import Shelters from "../../components/landing/Shelters.astro";
+import FinalCta from "../../components/landing/FinalCta.astro";
 
 let pets = [];
 let fetchError = null;
@@ -74,6 +77,8 @@ try {
       </div>
     </section>
 
+    <ComoAdoptar />
+
     <section class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 pb-20">
       {pets.length > 0 ? (
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -102,6 +107,9 @@ try {
         </div>
       )}
     </section>
+
+    <Shelters />
+    <FinalCta />
   </main>
   <Footer />
 </Layout>
