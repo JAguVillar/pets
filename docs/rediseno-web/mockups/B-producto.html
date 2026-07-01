@@ -1,0 +1,77 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B — Producto moderno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFD; --panel:#F4F6F8; --ink:#101828; --ink2:#667085; --line:#EAECF0;
+    --teal:#0E7C6B; --teal-d:#0A5C50; --teal-bg:#E6F4F1;
+    --amber:#E1622D; --amber-d:#B84A1C; --amber-bg:#FCEEE6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .brand .dot{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--teal),#12A594);display:grid;place-items:center;color:#fff;font-size:15px}
+  .navlinks{display:flex;align-items:center;gap:32px;font-size:15px;font-weight:500}
+  .navlinks .adopt{color:var(--teal-d)}
+  .navlinks .lost{color:var(--amber-d);display:flex;align-items:center;gap:7px}
+  .navlinks .lost::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--amber)}
+  .navlinks .in{color:var(--ink2)}
+  .hero{text-align:center;padding:64px 0 48px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--ink2);background:#fff;border:1px solid var(--line);padding:7px 15px;border-radius:999px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+  .eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+  h1{font-weight:800;font-size:66px;line-height:1.05;letter-spacing:-.04em;margin:24px 0 18px}
+  h1 .g{background:linear-gradient(90deg,var(--teal),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:19px;line-height:1.55;color:var(--ink2);max-width:500px;margin:0 auto}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:20px 0 64px}
+  .card{border-radius:20px;padding:32px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 6px -2px rgba(16,24,40,.03),0 12px 16px -4px rgba(16,24,40,.08);position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .card.adopt::before{background:var(--teal)} .card.lost::before{background:var(--amber)}
+  .card .glow{position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;filter:blur(10px);opacity:.5}
+  .card.adopt .glow{background:radial-gradient(var(--teal-bg),transparent 70%)}
+  .card.lost .glow{background:radial-gradient(var(--amber-bg),transparent 70%)}
+  .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:22px;margin-bottom:20px;position:relative}
+  .card.adopt .ic{background:var(--teal-bg)} .card.lost .ic{background:var(--amber-bg)}
+  .tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+  .card.adopt .tag{color:var(--teal-d)} .card.lost .tag{color:var(--amber-d)}
+  .card h2{font-weight:700;font-size:27px;line-height:1.12;letter-spacing:-.02em;margin-bottom:10px}
+  .card p{font-size:15px;line-height:1.55;color:var(--ink2);max-width:340px;margin-bottom:22px}
+  .go{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#fff;padding:12px 22px;border-radius:11px}
+  .card.adopt .go{background:var(--teal)} .card.lost .go{background:var(--amber)}
+  .stats{display:flex;gap:26px;margin-top:20px}
+  .stat b{font-weight:700;font-size:22px} .stat span{color:var(--ink2);font-size:13px}
+</style></head><body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot">🐾</span> Pets</div>
+    <div class="navlinks"><span class="adopt">Adoptar</span><span class="lost">Perdidos</span><span class="in">Ingresar</span></div>
+  </nav>
+  <header class="hero">
+    <span class="eyebrow"><span class="d"></span> +1.240 familias reunidas en Argentina</span>
+    <h1>Adoptá. Reportá.<br><span class="g">Reencontrá.</span></h1>
+    <p class="sub">Dos formas de ayudar, un solo lugar. Elegí por dónde querés empezar.</p>
+  </header>
+  <section class="cards">
+    <div class="card adopt">
+      <div class="glow"></div>
+      <div class="ic">🤍</div>
+      <div class="tag">Adoptar</div>
+      <h2>Encontrá tu próximo compañero</h2>
+      <p>Mascotas en adopción de refugios y familias verificadas. Filtrá, conectá y sumá uno a tu casa.</p>
+      <span class="go">Ver en adopción →</span>
+    </div>
+    <div class="card lost">
+      <div class="glow"></div>
+      <div class="ic">📍</div>
+      <div class="tag">Perdidos</div>
+      <h2>Ayudá a una familia a reencontrarse</h2>
+      <p>Mirá los reportes activos en el mapa de tu zona, o reportá una mascota perdida o encontrada. Es gratis.</p>
+      <span class="go">Ver perdidos →</span>
+    </div>
+  </section>
+</div>
+</body></html>

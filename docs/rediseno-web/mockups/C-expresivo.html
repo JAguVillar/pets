@@ -1,0 +1,71 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C — Expresivo / marca fuerte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EC; --ink:#231A16;
+    --green:#1E7A4C; --green-d:#155C39;
+    --orange:#F0531F; --orange-d:#C93E12;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:25px;letter-spacing:-.03em}
+  .brand .dot{width:36px;height:36px;border-radius:50% 50% 50% 12px;background:var(--ink);display:grid;place-items:center;color:var(--cream);font-size:17px}
+  .navlinks{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600}
+  .navlinks span{padding:9px 16px;border-radius:999px}
+  .navlinks .adopt{background:var(--green);color:#fff}
+  .navlinks .lost{background:var(--orange);color:#fff}
+  .navlinks .in{color:var(--ink)}
+  .hero{padding:50px 0 34px;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);border:2px solid var(--ink);padding:7px 15px;border-radius:999px}
+  .eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--orange)}
+  h1{font-family:'Bricolage Grotesque';font-weight:800;font-size:108px;line-height:.92;letter-spacing:-.045em;margin:22px 0 20px;max-width:11ch}
+  h1 .a{color:var(--green)} h1 .b{color:var(--orange)}
+  .sub{font-size:21px;line-height:1.5;color:var(--ink);max-width:520px;font-weight:500}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:24px 0 60px}
+  .card{border-radius:30px;padding:38px;color:#fff;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column}
+  .card.adopt{background:var(--green)} .card.lost{background:var(--orange)}
+  .blob{position:absolute;border-radius:50%;opacity:.16;background:#fff}
+  .b1{width:240px;height:240px;right:-70px;top:-70px}
+  .b2{width:150px;height:150px;right:40px;bottom:-60px}
+  .emoji{font-size:46px;margin-bottom:auto}
+  .tag{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9;margin-bottom:10px}
+  .card h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:38px;line-height:.98;letter-spacing:-.03em;margin-bottom:14px}
+  .card p{font-size:16px;line-height:1.45;opacity:.95;max-width:330px;margin-bottom:24px}
+  .go{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:16px;background:var(--ink);color:#fff;padding:14px 24px;border-radius:999px;width:fit-content}
+</style></head><body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot">🐾</span> Pets</div>
+    <div class="navlinks"><span class="adopt">Adoptar</span><span class="lost">Perdidos</span><span class="in">Ingresar</span></div>
+  </nav>
+  <header class="hero">
+    <span class="eyebrow"><span class="d"></span> +1.240 familias reunidas en Argentina</span>
+    <h1>Adoptá. <span class="a">Reportá.</span> <span class="b">Reencontrá.</span></h1>
+    <p class="sub">Dos formas de ayudar, un solo lugar. Elegí por dónde querés empezar.</p>
+  </header>
+  <section class="cards">
+    <div class="card adopt">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <div class="emoji">🐶</div>
+      <div class="tag">Adoptar</div>
+      <h2>Encontrá tu próximo compañero</h2>
+      <p>Mascotas en adopción de refugios y familias verificadas. Filtrá, conectá y sumá uno a tu casa.</p>
+      <span class="go">Ver en adopción →</span>
+    </div>
+    <div class="card lost">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <div class="emoji">📍</div>
+      <div class="tag">Perdidos</div>
+      <h2>Ayudá a una familia a reencontrarse</h2>
+      <p>Mirá los reportes activos en el mapa de tu zona, o reportá una mascota perdida o encontrada. Es gratis.</p>
+      <span class="go">Ver perdidos →</span>
+    </div>
+  </section>
+</div>
+</body></html>

@@ -1,0 +1,74 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+C — Editorial cálido con carácter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FCF6EA; --ink:#241A14; --ink2:#6E6055;
+    --green:#1F7A4B; --green-d:#155C39; --green-bg:#E7EFE6;
+    --terra:#D9531E; --terra-d:#A63C12; --terra-bg:#F8E7DA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 44px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque';font-weight:800;font-size:25px;letter-spacing:-.03em}
+  .brand .dot{width:38px;height:38px;border-radius:50% 50% 50% 12px;background:var(--ink);display:grid;place-items:center;color:var(--cream);font-size:18px}
+  .navlinks{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
+  .navlinks .adopt,.navlinks .lost{padding:9px 18px;border-radius:999px;color:#fff}
+  .navlinks .adopt{background:var(--green)}
+  .navlinks .lost{background:var(--terra);display:flex;align-items:center;gap:8px}
+  .navlinks .lost .d{width:7px;height:7px;border-radius:50%;background:#fff}
+  .navlinks .in{color:var(--ink2);padding-left:8px}
+  .hero{padding:44px 0 30px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);border:2px solid var(--ink);padding:8px 16px;border-radius:999px}
+  .eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--terra)}
+  h1{font-family:'Bricolage Grotesque';font-weight:800;font-size:98px;line-height:.9;letter-spacing:-.045em;margin:24px 0 22px}
+  h1 .a{color:var(--green)} h1 .b{color:var(--terra)}
+  .sub{font-size:21px;line-height:1.5;color:var(--ink2);max-width:540px;font-weight:500}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:26px 0 64px}
+  .card{border-radius:30px;overflow:hidden;position:relative;min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;padding:36px}
+  .card .ph{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.02)}
+  .card .ov{position:absolute;inset:0}
+  .card.adopt .ov{background:linear-gradient(180deg,rgba(31,122,75,.22) 0%,rgba(20,70,44,.72) 55%,rgba(12,44,28,.96) 100%)}
+  .card.lost .ov{background:linear-gradient(180deg,rgba(217,83,30,.26) 0%,rgba(150,55,25,.74) 55%,rgba(88,34,16,.96) 100%)}
+  .blob{position:absolute;border-radius:50%;background:#fff;opacity:.12;top:-70px;right:-60px;width:230px;height:230px;z-index:1}
+  .card>*{position:relative;z-index:2}
+  .card{color:#fff}
+  .tag{font-size:13px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:9px;opacity:.95}
+  .card h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:37px;line-height:.98;letter-spacing:-.03em;margin-bottom:13px}
+  .card p{font-size:15.5px;line-height:1.5;opacity:.94;max-width:350px;margin-bottom:22px}
+  .go{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:15.5px;background:var(--ink);color:#fff;padding:14px 24px;border-radius:999px;width:fit-content}
+</style></head><body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot">🐾</span> Pets</div>
+    <div class="navlinks"><span class="adopt">Adoptar</span><span class="lost"><span class="d"></span>Perdidos</span><span class="in">Ingresar</span></div>
+  </nav>
+  <header class="hero">
+    <span class="eyebrow"><span class="d"></span> +1.240 familias reunidas en Argentina</span>
+    <h1>Adoptá.<br><span class="a">Reportá.</span> <span class="b">Reencontrá.</span></h1>
+    <p class="sub">Dos formas de ayudar, un solo lugar. Elegí por dónde querés empezar.</p>
+  </header>
+  <section class="cards">
+    <a class="card adopt">
+      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=1000&q=80&auto=format&fit=crop')"></div>
+      <div class="ov"></div><div class="blob"></div>
+      <div class="tag">🐶 Adoptar</div>
+      <h2>Encontrá tu próximo compañero</h2>
+      <p>Mascotas en adopción de refugios y familias verificadas. Filtrá, conectá y sumá uno a tu casa.</p>
+      <span class="go">Ver en adopción →</span>
+    </a>
+    <a class="card lost">
+      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1517849845537-4d257902454a?w=1000&q=80&auto=format&fit=crop')"></div>
+      <div class="ov"></div><div class="blob"></div>
+      <div class="tag">📍 Perdidos</div>
+      <h2>Ayudá a una familia a reencontrarse</h2>
+      <p>Mirá los reportes activos en el mapa de tu zona, o reportá una mascota perdida o encontrada. Es gratis.</p>
+      <span class="go">Ver perdidos →</span>
+    </a>
+  </section>
+</div>
+</body></html>

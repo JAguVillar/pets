@@ -1,0 +1,72 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A — Editorial cálido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF6EE; --paper2:#F4ECE0; --ink:#2A2420; --ink2:#6E645A;
+    --sage:#4B6A4E; --sage-d:#2F4A34; --sage-bg:#E7EEE4;
+    --terra:#B65A3C; --terra-d:#8F3F26; --terra-bg:#F6E6DC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-family:Fraunces;font-weight:600;font-size:24px;letter-spacing:-.01em}
+  .brand .dot{width:34px;height:34px;border-radius:10px;background:var(--sage);display:grid;place-items:center;color:#fff;font-size:16px}
+  .navlinks{display:flex;align-items:center;gap:34px;font-size:15px;font-weight:500}
+  .navlinks .adopt{color:var(--sage-d)}
+  .navlinks .lost{color:var(--terra-d);display:flex;align-items:center;gap:7px}
+  .navlinks .lost::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--terra)}
+  .navlinks .in{color:var(--ink2)}
+  .hero{text-align:center;padding:56px 0 44px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--sage-d);background:var(--sage-bg);padding:8px 16px;border-radius:999px;letter-spacing:.01em}
+  .eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--sage)}
+  h1{font-family:Fraunces;font-weight:600;font-size:76px;line-height:1.02;letter-spacing:-.025em;margin:26px 0 20px}
+  h1 em{font-style:italic;color:var(--sage-d)}
+  .sub{font-size:20px;line-height:1.55;color:var(--ink2);max-width:520px;margin:0 auto}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:16px 0 64px}
+  .card{border-radius:24px;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;padding:34px;color:#fff}
+  .card .ph{position:absolute;inset:0;background-size:cover;background-position:center}
+  .card .ov{position:absolute;inset:0}
+  .card.adopt .ov{background:linear-gradient(180deg,rgba(47,74,52,.12) 0%,rgba(30,48,34,.55) 55%,rgba(24,40,28,.9) 100%)}
+  .card.lost .ov{background:linear-gradient(180deg,rgba(143,63,38,.12) 0%,rgba(120,50,30,.55) 55%,rgba(90,38,22,.92) 100%)}
+  .card>*{position:relative;z-index:1}
+  .tag{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.92;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .card h2{font-family:Fraunces;font-weight:600;font-size:33px;line-height:1.08;letter-spacing:-.02em;margin-bottom:12px}
+  .card p{font-size:15.5px;line-height:1.5;opacity:.92;max-width:340px;margin-bottom:20px}
+  .go{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;background:#fff;color:var(--ink);padding:12px 20px;border-radius:999px;width:fit-content}
+  .card.adopt .go{color:var(--sage-d)} .card.lost .go{color:var(--terra-d)}
+</style></head><body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot">🐾</span> Pets</div>
+    <div class="navlinks"><span class="adopt">Adoptar</span><span class="lost">Perdidos</span><span class="in">Ingresar</span></div>
+  </nav>
+  <header class="hero">
+    <span class="eyebrow"><span class="d"></span> +1.240 familias reunidas en Argentina</span>
+    <h1>Adoptá. Reportá.<br><em>Reencontrá.</em></h1>
+    <p class="sub">Dos formas de ayudar, un solo lugar. Elegí por dónde querés empezar.</p>
+  </header>
+  <section class="cards">
+    <a class="card adopt">
+      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=900&q=80&auto=format&fit=crop')"></div>
+      <div class="ov"></div>
+      <div class="tag">🤍 Adoptar</div>
+      <h2>Encontrá tu próximo compañero</h2>
+      <p>Mascotas en adopción de refugios y familias verificadas. Filtrá, conectá y sumá uno a tu casa.</p>
+      <span class="go">Ver en adopción →</span>
+    </a>
+    <a class="card lost">
+      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=900&q=80&auto=format&fit=crop')"></div>
+      <div class="ov"></div>
+      <div class="tag">📍 Perdidos</div>
+      <h2>Ayudá a una familia a reencontrarse</h2>
+      <p>Mirá los reportes activos en el mapa de tu zona, o reportá una mascota perdida o encontrada. Es gratis.</p>
+      <span class="go">Ver perdidos →</span>
+    </a>
+  </section>
+</div>
+</body></html>
